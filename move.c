@@ -1,7 +1,5 @@
 #include "img.h"
 
-#define SPEED 0.01
-
 int	move(int keycode, t_vars *vars)
 {
 	double	size;
@@ -27,5 +25,10 @@ int	move(int keycode, t_vars *vars)
 		vars->loc.xb += SPEED * size;
 		vars->loc.xe += SPEED * size;
 	}
+	mlx_destroy_image(vars->mlx, vars->data.img);                               
+	vars->data.img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
+ 	vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, &vars->data.len, &vars->data.endian);
+	mandelbrot(*vars);
+	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);            
 	return (0);
 }

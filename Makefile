@@ -1,6 +1,6 @@
 NAME = a.out
 
-OBJS = main.o my_pixel_put.o render_next_frame.o to_color.o mandelbrot.o op_cplx.o move.o zoom.o
+OBJS = main.o my_pixel_put.o to_color.o mandelbrot.o op_cplx.o move.o zoom.o
 
 HEAD = img.h
 

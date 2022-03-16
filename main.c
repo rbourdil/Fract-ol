@@ -13,9 +13,10 @@ int	main(void)
 	vars.loc.xe = 0.47;
 	vars.loc.yb = -1.12;
 	vars.loc.ye = 1.12;
+	mandelbrot(vars);
 	mlx_hook(vars.win, KeyPress, KeyPressMask, move, &vars);
 	mlx_hook(vars.win, ButtonPress, ButtonPressMask, zoom, &vars);
-	mlx_loop_hook(vars.mlx, render_next_frame, &vars);
+	//mlx_loop_hook(vars.mlx, render_next_frame, &vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.data.img, 0, 0);
 	mlx_loop(vars.mlx);
 	return (0);

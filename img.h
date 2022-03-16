@@ -8,9 +8,10 @@
 #include <stdio.h>
 #include <math.h>
 
-#define WIDTH 1000
-#define HEIGTH 600
-#define BOUND 100
+#define WIDTH 800
+#define HEIGTH 800
+#define BOUND 50
+#define SPEED 0.1
 
 typedef struct s_cplx {
 	double	a;
@@ -41,7 +42,6 @@ typedef struct s_vars {
 
 void	my_pixel_put(t_data *data, int x, int y, int color);
 int		square(int keycode, t_vars *vars);
-int		render_next_frame(t_vars *vars);
 int		to_color(int t, int r, int g, int b);
 void	mandelbrot(t_vars vars);
 
