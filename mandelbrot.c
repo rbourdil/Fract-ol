@@ -33,7 +33,7 @@ void	mandelbrot(t_vars vars)
 		y = 0;
 		while (y < HEIGTH)
 		{
-			n = mandelbrot_color(x, y, vars);
+			n = mandelbrot_color(x, HEIGTH - y, vars);
 			my_pixel_put(&vars.data, x, y, n * n);
 			y++;
 		}

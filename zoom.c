@@ -8,38 +8,38 @@
 static void	zoom_in(t_loc *loc, int x, int y)
 {
 	double	size;
-	double	new_size;
+	double	newsize;
 
 	size = loc->xe - loc->xb;
-	new_size = size * (1 - SPEED);
-	loc->xb = ((double)x / WIDTH) * (size - new_size) + loc->xb;
-	loc->xe -= new_size + loc->xb;
+	newsize = size * (1 - SPEED);
+	loc->xb = ((double)x / WIDTH) * (size - newsize) + loc->xb;
+	loc->xe = newsize + loc->xb;
 	size = loc->ye - loc->yb;
-	new_size = size * (1 - SPEED);
-	loc->yb = ((double)y / HEIGTH) * (size - new_size) + loc->yb;
-	loc->ye = new_size + loc->yb;
+	newsize = size * (1 - SPEED);
+	loc->yb = ((double)y / HEIGTH) * (size - newsize) + loc->yb;
+	loc->ye = newsize + loc->yb;
 }
 
 static void	zoom_out(t_loc *loc, int x, int y)
 {
 	double	size;
-	double	new_size;
+	double	newsize;
 
 	size = loc->xe - loc->xb;
-	new_size = size * (1 + SPEED);
-	loc->xb = ((double)x / WIDTH) * (size - new_size) + loc->xb;
-	loc->xe -= new_size + loc->xb;
+	newsize = size * (1 + SPEED);
+	loc->xb = ((double)x / WIDTH) * (size - newsize) + loc->xb;
+	loc->xe = newsize + loc->xb;
 	size = loc->ye - loc->yb;
-	new_size = size * (1 + SPEED);
-	loc->yb = ((double)y / HEIGTH) * (size - new_size) + loc->yb;
-	loc->ye = new_size + loc->yb;
+	newsize = size * (1 + SPEED);
+	loc->yb = ((double)y / HEIGTH) * (size - newsize) + loc->yb;
+	loc->ye = newsize + loc->yb;
 }
 
 int	zoom(int button, int x, int y, t_vars *vars)
 {
 	if (button == SCROLL_UP)
-		zoom_in(&vars->loc, x, y);
+		zoom_in(&vars->loc, x, HEIGTH - y);
 	else if (button == SCROLL_DOWN)
-		zoom_out(&vars->loc, x, y);
+		zoom_out(&vars->loc, x, HEIGTH - y);
 	return (0);
 }
