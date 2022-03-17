@@ -3,22 +3,29 @@
 int	mandelbrot_color(int x, int y, t_vars vars)
 {
 	int		n;
-	double	mu;
-	t_cplx	c, z;
+	double	ca, cb, za, zb, dza, dzb, tmp, mod_z, mod_dz, ret;
 
-	c.a = ((double)x / WIDTH) * (vars.loc.xe - vars.loc.xb) + vars.loc.xb;
-	c.b = ((double)y / HEIGTH) * (vars.loc.ye - vars.loc.yb) + vars.loc.yb;
-	z.a = 0.0;
-	z.b = 0.0;
+	ca = ((double)x / WIDTH) * (vars.loc.xe - vars.loc.xb) + vars.loc.xb;
+	cb = ((double)y / HEIGTH) * (vars.loc.ye - vars.loc.yb) + vars.loc.yb;
+	za = 0.0;
+	zb = 0.0;
+	dza = 0.0;
+	dzb = 0.0;
 	n = 0;
-	while (n < BOUND && mod_cplx(z) < 2)
+	while (n < BOUND && za * za + zb * zb < 4)
 	{
-		mult_cplx(&z, z);
-		add_cplx(&z, c);
+		tmp = za;
+		za = za * za - zb * zb + ca;
+		zb = 2 * tmp * zb + cb; 
+		tmp = dza;
+		dza = 2 * (za * dza - zb * dzb) + 1;
+		dzb = 2 * (za * dzb + zb * tmp);
 		n++;
 	}
-	mu = (double)n - (log(log(mod_cplx(z)))) / log(2.0);
-	return ((int)mu);
+	mod_z = sqrt(za * za + zb * zb);
+	mod_dz = sqrt(dza * dza + dzb * dzb);
+	ret = mod_z * log(mod_z) / mod_dz;
+	return ((int)ret);
 }
 
 void	mandelbrot(t_vars vars)

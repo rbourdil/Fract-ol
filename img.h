@@ -10,7 +10,7 @@
 
 #define WIDTH 800
 #define HEIGTH 800
-#define BOUND 50
+#define BOUND 100
 #define SPEED 0.1
 
 typedef struct s_cplx {
@@ -42,7 +42,6 @@ typedef struct s_vars {
 
 void	my_pixel_put(t_data *data, int x, int y, int color);
 int		square(int keycode, t_vars *vars);
-int		to_color(int t, int r, int g, int b);
 void	mandelbrot(t_vars vars);
 
 int		move(int keycode, t_vars *vars);
@@ -51,5 +50,12 @@ int		zoom(int button, int x, int y, t_vars *vars);
 void	add_cplx(t_cplx *cplx1, t_cplx cplx2);
 void	mult_cplx(t_cplx *cplx1, t_cplx cplx2);
 double	mod_cplx(t_cplx cplx1);
+
+int		to_color(int t, int r, int g, int b);
+int		get_t(int trgb);
+int		get_r(int trgb);
+int		get_g(int trgb);
+int		get_b(int trgb);
+int		interpolate_color(int color1, int color2, double t);
 
 #endif
