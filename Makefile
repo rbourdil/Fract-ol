@@ -1,6 +1,6 @@
 NAME = a.out
 
-OBJS = main.o my_pixel_put.o colors.o mandelbrot.o op_cplx.o move.o zoom.o
+OBJS = main.o my_pixel_put.o colors.o mandelbrot3.o op_cplx.o move.o zoom.o logbase.o ft_strcmp.o fract_params.o
 
 HEAD = img.h
 

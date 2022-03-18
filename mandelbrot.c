@@ -1,36 +1,28 @@
 #include "img.h"
 
-int	mandelbrot_color(int x, int y, t_vars vars)
+double	mandelbrot_color(double ca, double cb)
 {
 	int		n;
-	double	ca, cb, za, zb, dza, dzb, tmp, mod_z, mod_dz, ret;
+	double	za, zb, tmp;
 
-	ca = ((double)x / WIDTH) * (vars.loc.xe - vars.loc.xb) + vars.loc.xb;
-	cb = ((double)y / HEIGTH) * (vars.loc.ye - vars.loc.yb) + vars.loc.yb;
 	za = 0.0;
 	zb = 0.0;
-	dza = 0.0;
-	dzb = 0.0;
 	n = 0;
 	while (n < BOUND && za * za + zb * zb < 4)
 	{
 		tmp = za;
 		za = za * za - zb * zb + ca;
 		zb = 2 * tmp * zb + cb; 
-		tmp = dza;
-		dza = 2 * (za * dza - zb * dzb) + 1;
-		dzb = 2 * (za * dzb + zb * tmp);
 		n++;
 	}
-	mod_z = sqrt(za * za + zb * zb);
-	mod_dz = sqrt(dza * dza + dzb * dzb);
-	ret = mod_z * log(mod_z) / mod_dz;
-	return ((int)ret);
+	if (n == BOUND)
+		return (0);
+	return ((double)n + 1 - log(log2(sqrt(za * za + zb * zb))));
 }
 
 void	mandelbrot(t_vars vars)
 {
-	int	n;
+	double	n, ca, cb, p;
 	int	x;
 	int	y;
 
@@ -40,8 +32,17 @@ void	mandelbrot(t_vars vars)
 		y = 0;
 		while (y < HEIGTH)
 		{
-			n = mandelbrot_color(x, HEIGTH - y, vars);
-			my_pixel_put(&vars.data, x, y, n * n);
+			ca = ((double)x / WIDTH) * (vars.loc.xe - vars.loc.xb) + vars.loc.xb;
+			cb = ((double)(HEIGTH - y) / HEIGTH) * (vars.loc.ye - vars.loc.yb) + vars.loc.yb;
+			p = sqrt((ca - 1.0 / 4.0) * (ca - 1.0 / 4.0) + cb * cb);
+			if (ca <= (p - 2.0 * p * p + 0.25))
+				n = 0.0;
+			else if ((ca + 1.0) * (ca + 1.0) + cb * cb <= (1.0 / 16.0))
+				n = 0.0;	
+			else
+				n = mandelbrot_color(ca, cb);
+			n = logbase(n, BOUND);
+			my_pixel_put(&vars.data, x, y, interpolate_color((n > 0) ? vars.fract->color1 : 0, vars.fract->color2, n));
 			y++;
 		}
 		x++;
