@@ -22,7 +22,7 @@ double	mandelbrot_color(double ca, double cb)
 
 void	mandelbrot(t_vars vars)
 {
-	double	n, ca, cb, p;
+	double	n, ca, cb, p, color;
 	int	x;
 	int	y;
 
@@ -41,8 +41,17 @@ void	mandelbrot(t_vars vars)
 				n = 0.0;	
 			else
 				n = mandelbrot_color(ca, cb);
-			n = logbase(n, BOUND);
-			my_pixel_put(&vars.data, x, y, interpolate_color((n > 0) ? vars.fract->color1 : 0, vars.fract->color2, n));
+			if (n > 0)
+			{
+				n = logbase(n, BOUND);
+				color = interpolate_color(vars.fract->color1, vars.fract->color2, n);
+				my_pixel_put(&vars.data, x, y, hsv_to_rgb((double)color, 1.0, 1.0)); 
+			}
+			else
+			{
+				color = 0;
+				my_pixel_put(&vars.data, x, y, 0);
+			}
 			y++;
 		}
 		x++;
