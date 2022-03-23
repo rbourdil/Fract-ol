@@ -29,17 +29,45 @@ static void	switch_color(int button, t_vars *vars)
 {
 	if (button == SCROLL_UP)
 	{
-		if (vars->mode == COLOR_1 && vars->fract->color1 <= 360 - COLOR_SHIFT)
-			vars->fract->color1 += COLOR_SHIFT;
-		else if (vars->mode == COLOR_2 && vars->fract->color2 <= 360 - COLOR_SHIFT)
-			vars->fract->color2 += COLOR_SHIFT;
+		if (vars->mode == COLOR_1)
+		{
+			if (vars->hsv == HUE && (vars->fract.color1.hue + COLOR_SHIFT) <= 360)
+				vars->fract.color1.hue += COLOR_SHIFT;
+			else if (vars->hsv == SAT && (vars->fract.color1.sat + 0.1) <= 1.0)
+				vars->fract.color1.sat += 0.1;
+			else if (vars->hsv == VAL && (vars->fract.color1.val + 0.1) <= 1.0)
+				vars->fract.color1.val += 0.1;
+		}
+		else if (vars->mode == COLOR_2)
+		{
+			if (vars->hsv == HUE && (vars->fract.color2.hue + COLOR_SHIFT) <= 360)
+				vars->fract.color2.hue += COLOR_SHIFT;
+			else if (vars->hsv == SAT && (vars->fract.color2.sat + 0.1) <= 1.0)
+				vars->fract.color2.sat += 0.1;
+			else if (vars->hsv == VAL && (vars->fract.color2.val + 0.1) <= 1.0)
+				vars->fract.color2.val += 0.1;
+		}
 	}
 	else
 	{
-		if (vars->mode == COLOR_1 && vars->fract->color1 >= COLOR_SHIFT)
-			vars->fract->color1 -= COLOR_SHIFT;
-		else if (vars->mode == COLOR_2 && vars->fract->color2 >= COLOR_SHIFT)
-			vars->fract->color2 -= COLOR_SHIFT;
+		if (vars->mode == COLOR_1)
+		{
+			if (vars->hsv == HUE && (vars->fract.color1.hue - COLOR_SHIFT) >= 0)
+				vars->fract.color1.hue -= COLOR_SHIFT;
+			else if (vars->hsv == SAT && (vars->fract.color1.sat - 0.1) >= 0)
+				vars->fract.color1.sat -= 0.1;
+			else if (vars->hsv == VAL && (vars->fract.color1.val - 0.1) >= 0)
+				vars->fract.color1.val -= 0.1;
+		}
+		else if (vars->mode == COLOR_2)
+		{
+			if (vars->hsv == HUE && (vars->fract.color2.hue - COLOR_SHIFT) >= 0)
+				vars->fract.color2.hue -= COLOR_SHIFT;
+			else if (vars->hsv == SAT && (vars->fract.color2.sat - 0.1) >= 0)
+				vars->fract.color2.sat -= 0.1;
+			else if (vars->hsv == VAL && (vars->fract.color2.val - 0.1) >= 0)
+				vars->fract.color2.val -= 0.1;
+		}
 	}
 }
 
@@ -61,7 +89,7 @@ int	button_press(int button, int x, int y, t_vars *vars)
 	mlx_destroy_image(vars->mlx, vars->data.img);
 	vars->data.img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
 	vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, &vars->data.len, &vars->data.endian);
-	(*vars->fract->f)(*vars);
+	plot_fractal(*vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
 	return (0);
 }

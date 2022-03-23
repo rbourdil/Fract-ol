@@ -1,70 +1,58 @@
 #include "img.h"
 
+static int	rgb_red(double hue, double sat, double val)
+{
+	double	rgb;
+
+	if (hue < 60.0 || hue >= 300.0)
+		rgb = 255.0;
+	else if (hue < 120.0)
+		rgb = (((119.0 - hue) / 60.0) * sat + (1.0 - sat)) * 255.0;
+	else if (hue < 240.0)
+		rgb = (1.0 - sat) * 255.0;
+	else
+		rgb = (((hue - 240.0) / 60.0) * sat + (1.0 - sat)) * 255.0;
+	return ((int)(rgb * val));
+}
+
+static int	rgb_green(double hue, double sat, double val)
+{
+	double	rgb;
+
+	if (hue >= 240.0)
+		rgb = (1.0 - sat) * 255.0;
+	else if (hue >= 180.0)
+		rgb = (((240.0 - hue) / 60.0) * sat + (1.0 - sat)) * 255.0;
+	else if (hue >= 60.0)
+		rgb = 255.0;
+	else
+		rgb = ((hue / 60.0) * sat + (1.0 - sat)) * 255.0;
+	return ((int)(rgb * val));
+}
+
+static int	rgb_blue(double hue, double sat, double val)
+{
+	double	rgb;
+
+	if (hue >= 300)
+		rgb = (((360.0 - hue) / 60.0) * sat + (1.0 - sat)) * 255.0;
+	else if (hue >= 240)
+		rgb = 255.0;
+	else if (hue >= 180)
+		rgb = (((hue - 120.0) / 60.0) * sat + (1.0 - sat)) * 255.0;
+	else
+		rgb = (1.0 - sat) * 255.0;
+	return ((int)(rgb * val));
+}
+
 int	hsv_to_rgb(double hue, double sat, double val)
 {
-	double r = 0, g = 0, b = 0;
+	int	r;
+	int	g;
+	int	b;
 
-	if (sat == 0)
-	{
-		r = val;
-		g = val;
-		b = val;
-	}
-	else
-	{
-		int i;
-		double f, p, q, t;
-
-		if (hue == 360)
-			hue = 0;
-		else
-			hue = hue / 60;
-		i = (int)hue;
-		f = hue - i;
-
-		p = val * (1.0 - sat);
-		q = val * (1.0 - (sat * f));
-		t = val * (1.0 - (sat * (1.0 - f)));
-
-		switch (i)
-		{
-		case 0:
-			r = val;
-			g = t;
-			b = p;
-			break;
-
-		case 1:
-			r = q;
-			g = val;
-			b = p;
-			break;
-
-		case 2:
-			r = p;
-			g = val;
-			b = t;
-			break;
-
-		case 3:
-			r = p;
-			g = q;
-			b = val;
-			break;
-
-		case 4:
-			r = t;
-			g = p;
-			b = val;
-			break;
-
-		default:
-			r = val;
-			g = p;
-			b = q;
-			break;
-		}
-
-	}
-	return (to_color(0, (int)(r * 255.0), (int)(g * 255.0), (int)(b * 255.0)));
+	r = rgb_red(hue, sat, val);
+	g = rgb_green(hue, sat, val);
+	b = rgb_blue(hue, sat, val);
+	return (to_color(0, r, g, b));
 }
