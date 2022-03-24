@@ -11,7 +11,7 @@
 
 #define WIDTH 600
 #define HEIGTH 600
-#define BOUND 500
+#define BOUND 1000
 #define SPEED 0.1
 #define COLOR_SHIFT 30
 #define ZOOM 0
@@ -22,6 +22,7 @@
 #define VAL 3
 #define	MANDELBROT 1
 #define	JULIA 2
+#define BURNING_SHIP 3
 
 struct	s_fractals;
 
@@ -79,6 +80,7 @@ void	fract_params(t_vars *vars, char *arg1, char *arg2);
 
 double	mandelbrot(double ca, double cb, t_args args);
 double	julia(double za, double zb, t_args args);
+double	burning_ship(double za, double zb, t_args args);
 
 int		key_press(int keycode, t_vars *vars);
 int		button_press(int button, int x, int y, t_vars *vars);

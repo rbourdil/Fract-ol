@@ -1,6 +1,6 @@
 NAME = a.out
 
-OBJS = main.o my_pixel_put.o colors.o mandelbrot.o key_press.o button_press.o logbase.o ft_strcmp.o fract_params.o hsv_to_rgb.o plot_fractal.o julia.o ft_atof.o
+OBJS = main.o my_pixel_put.o colors.o mandelbrot.o key_press.o button_press.o logbase.o ft_strcmp.o fract_params.o hsv_to_rgb.o plot_fractal.o julia.o ft_atof.o burning_ship.o
 
 HEAD = img.h
 

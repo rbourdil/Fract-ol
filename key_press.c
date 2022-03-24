@@ -5,7 +5,7 @@
 #define RIGHT 0xFF53
 #define LEFT 0xFF51
 
-#define Z 119
+#define Z 122
 #define H 104
 #define S 115
 #define V 118

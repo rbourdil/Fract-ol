@@ -20,6 +20,11 @@ int	main(int argc, char *argv[])
 		vars.fract.choice = JULIA;
 		vars.fract.f = &julia;
 	}
+	else if (!ft_strcmp(argv[1], "ship"))
+	{
+		vars.fract.choice = BURNING_SHIP;
+		vars.fract.f = &burning_ship;
+	}
 	fract_params(&vars, argv[2], argv[3]);
 	plot_fractal(vars);
 	vars.mode = ZOOM;
