@@ -8,6 +8,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include <errno.h>
 
 #define WIDTH 600
 #define HEIGTH 600
@@ -99,5 +100,7 @@ int		interpolate_color(t_color color1, t_color color2, double d);
 int		hsv_to_rgb(double hue, double sat, double val);
 
 int		ft_strcmp(char *s1, char *s2);
+
+int		close(t_vars *vars);
 
 #endif

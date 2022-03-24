@@ -9,6 +9,7 @@
 #define H 104
 #define S 115
 #define V 118
+#define ESCAPE 0xff1b
 
 static void	move(int key, t_vars *vars)
 {	
@@ -56,5 +57,7 @@ int	key_press(int key, t_vars *vars)
 		vars->hsv = SAT;
 	else if (key == V)
 		vars->hsv = VAL;
+	else if (key == ESCAPE)
+		close(vars);
 	return (0);
 }
