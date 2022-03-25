@@ -1,5 +1,31 @@
 #include "img.h"
 
+void	select_fract(t_vars *vars, char *argv[])
+{	
+	if (!ft_strcmp(argv[1], "mandelbrot"))
+	{
+		vars->fract.choice = MANDELBROT;
+		vars->fract.f = &mandelbrot;
+	}
+	else if (!ft_strcmp(argv[1], "julia"))
+	{
+		vars->fract.choice = JULIA;
+		vars->fract.f = &julia;
+	}
+	else if (!ft_strcmp(argv[1], "ship"))
+	{
+		vars->fract.choice = BURNING_SHIP;
+		vars->fract.f = &burning_ship;
+	}
+	else if (!ft_strcmp(argv[1], "help"))
+		print_help();
+	else
+	{
+		printf("usage: %s <fractal_name>\n", argv[0]);
+		exit(EXIT_FAILURE);
+	}
+}
+ 
 void	fract_params(t_vars *vars, char *arg1, char *arg2)
 {
 	if (vars->fract.choice == MANDELBROT || vars->fract.choice == BURNING_SHIP)

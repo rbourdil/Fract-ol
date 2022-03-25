@@ -1,5 +1,10 @@
 #include "img.h"
 
+static double	logbase(double n, double base)
+{
+	return (log(n) / log(base));
+}
+
 void	plot_fractal(t_vars vars)
 {
 	double	n, ca, cb, color;
@@ -22,10 +27,7 @@ void	plot_fractal(t_vars vars)
 				my_pixel_put(&vars.data, x, y, color); 
 			}
 			else
-			{
-				color = 0;
 				my_pixel_put(&vars.data, x, y, 0);
-			}
 			y++;
 		}
 		x++;

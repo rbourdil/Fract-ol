@@ -1,6 +1,6 @@
 #include "img.h"
 
-void	my_pixel_put(t_data *data, int x, int y, int color)
+inline void	my_pixel_put(t_data *data, int x, int y, int color)
 {
 	char	*dst;
 
