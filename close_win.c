@@ -1,35 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   julia.c                                            :+:      :+:    :+:   */
+/*   close_win.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2022/03/28 16:02:12 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/28 16:02:26 by rbourdil         ###   ########.fr       */
+/*   Created: 2022/03/28 13:51:03 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/03/28 17:35:48 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "img.h"
 
-double	julia(double za, double zb, t_args args)
+int	close_win(t_vars *vars)
 {
-	int		n;
-	double	ca;
-	double	cb;
-	double	tmp;
-
-	ca = args.ca;
-	cb = args.cb;
-	n = 0;
-	while (n < BOUND && za * za + zb * zb < 4)
-	{
-		tmp = za;
-		za = za * za - zb * zb + ca;
-		zb = 2.0 * tmp * zb + cb;
-		n++;
-	}
-	if (n == BOUND)
-		return (0);
-	return ((double)n + 1 - log(log2(sqrt(za * za + zb * zb))));
+	mlx_loop_end(vars->mlx);
+	mlx_destroy_window(vars->mlx, vars->win);
+	return (0);
 }

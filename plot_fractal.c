@@ -1,15 +1,31 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   plot_fractal.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/28 13:48:04 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/03/28 15:08:14 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "img.h"
 
 static double	logbase(double n, double base)
 {
-	return (log(n) / log(base));
+	if (n > 0.0)
+		return (log(n) / log(base));
+	return (0.0);
 }
 
 void	plot_fractal(t_vars vars)
 {
-	double	n, ca, cb, color;
-	int	x;
-	int	y;
+	double	n;
+	double	ca;
+	double	cb;
+	int		x;
+	int		y;
 
 	x = 0;
 	while (x < WIDTH)
@@ -17,17 +33,15 @@ void	plot_fractal(t_vars vars)
 		y = 0;
 		while (y < HEIGTH)
 		{
-			ca = ((double)x / WIDTH) * (vars.loc.xe - vars.loc.xb) + vars.loc.xb;
-			cb = ((double)(HEIGTH - y) / HEIGTH) * (vars.loc.ye - vars.loc.yb) + vars.loc.yb;
-			n = (*vars.fract.f)(ca, cb, vars.args);
-			if (n > 0)
-			{
-				n = logbase(n, BOUND);
-				color = interpolate_color(vars.fract.color1, vars.fract.color2, n);
-				my_pixel_put(&vars.data, x, y, color); 
-			}
+			ca = ((double)x / WIDTH) * vars.loc.x_range + vars.loc.xb;
+			cb = ((double)(HEIGTH - y) / HEIGTH) * \
+			vars.loc.y_range + vars.loc.yb;
+			n = logbase((*vars.fract.f)(ca, cb, vars.args), BOUND);
+			if (n > 0.0)
+				pixput(&vars.data, x, y, smooth_color(vars.fract.color1, \
+				vars.fract.color2, n));
 			else
-				my_pixel_put(&vars.data, x, y, 0);
+				pixput(&vars.data, x, y, 0);
 			y++;
 		}
 		x++;

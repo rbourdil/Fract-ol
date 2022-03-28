@@ -1,18 +1,33 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   errors.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/28 13:51:26 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/03/28 17:42:06 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "img.h"
+
+#define DMIN 10E-7
+#define DMAX 10E35
 
 void	print_help(void)
 {
-	printf("FRACTOL\n\n");
-	printf("NAME\n\tfractol - displays the chosen fractal\n\n");
-	printf("SYNOPSIS\n\t./fractol <fractal_name> [float] [float]\n\n");
-	printf("ARGV[1]\n\tmandelbrot - displays the mandelbrot fractal\n\
+	ft_printf("FRACTOL\n\n");
+	ft_printf("NAME\n\tfractol - displays the chosen fractal\n\n");
+	ft_printf("SYNOPSIS\n\t./fractol <fractal_name> [float] [float]\n\n");
+	ft_printf("ARGV[1]\n\tmandelbrot - displays the mandelbrot fractal\n\
 	julia - displays the julia fractal\n\
 	ship - displays the burning ship fractal\n\n");
-	printf("ARGV[2]\n\tFor the julia fractal only: the real part of the\
+	ft_printf("ARGV[2]\n\tFor the julia fractal only: the real part of the\
  complex number argument\n\n");
-	printf("ARGV[3]\n\tFor the julia fractal only: the imaginary part of the\
- complex number argument\n\n");
-	printf("COMMANDS\n\troll the mouse wheel to modify parameters\n\
+	ft_printf("ARGV[3]\n\tFor the julia fractal only: the imaginary part of\
+ the complex number argument\n\n");
+	ft_printf("COMMANDS\n\troll the mouse wheel to modify parameters\n\
 	Z - zoom mode\n\tH - hue mode\n\tS - saturation mode\n\tV - value mode\n\
 	right click - switch to color 1\n\
 	left_click - switch to color 2\n\n");
@@ -23,7 +38,7 @@ void	check_args(int argc, char *argv[])
 {
 	if (argc < 2)
 	{
-		printf("usage: %s <fractal_name>\n", argv[0]);
+		ft_printf("usage: %s <fractal_name>\n", argv[0]);
 		exit(EXIT_FAILURE);
 	}
 	else if (!ft_strcmp(argv[1], "help"))
@@ -35,7 +50,7 @@ void	check_args(int argc, char *argv[])
 	{
 		if (argc != 4 || !ft_isfloat(argv[2]) || !ft_isfloat(argv[3]))
 		{
-			printf("usage: %s <julia> <float> <float>\n", argv[0]);
+			ft_printf("usage: %s <julia> <float> <float>\n", argv[0]);
 			exit(EXIT_FAILURE);
 		}
 	}

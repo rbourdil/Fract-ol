@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   button_press.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/28 13:56:07 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/03/28 18:01:46 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "img.h"
 
 #define SCROLL_UP 4
@@ -5,70 +17,59 @@
 #define LEFT_CLICK 1
 #define RIGHT_CLICK 3
 
+#define HUE_SHIFT 30
+#define SAT_SHIFT 10
+#define VAL_SHIFT 10
+
 static void	zoom(int button, t_loc *loc, int x, int y)
 {
-	double	size;
-	double	newsize;
+	double	newrange;
 	double	speed;
 
 	if (button == SCROLL_UP)
 		speed = 1 - SPEED;
 	else if (button == SCROLL_DOWN)
 		speed = 1 + SPEED;
-	size = loc->xe - loc->xb;
-	newsize = size * speed;
-	loc->xb = ((double)x / WIDTH) * (size - newsize) + loc->xb;
-	loc->xe = newsize + loc->xb;
-	size = loc->ye - loc->yb;
-	newsize = size * speed;
-	loc->yb = ((double)y / HEIGTH) * (size - newsize) + loc->yb;
-	loc->ye = newsize + loc->yb;
+	newrange = loc->x_range * speed;
+	loc->xb = ((double)x / WIDTH) * (loc->x_range - newrange) + loc->xb;
+	loc->xe = newrange + loc->xb;
+	loc->x_range = newrange;
+	newrange = loc->y_range * speed;
+	loc->yb = ((double)y / HEIGTH) * (loc->y_range - newrange) + loc->yb;
+	loc->ye = newrange + loc->yb;
+	loc->y_range = newrange;
 }
 
-static void	switch_color(int button, t_vars *vars)
+static void	switch_color(int button, t_color *color, int hsv)
 {
 	if (button == SCROLL_UP)
 	{
-		if (vars->mode == COLOR_1)
-		{
-			if (vars->hsv == HUE && (vars->fract.color1.hue + COLOR_SHIFT) <= 360)
-				vars->fract.color1.hue += COLOR_SHIFT;
-			else if (vars->hsv == SAT && (vars->fract.color1.sat + 0.1) <= 1.0)
-				vars->fract.color1.sat += 0.1;
-			else if (vars->hsv == VAL && (vars->fract.color1.val + 0.1) <= 1.0)
-				vars->fract.color1.val += 0.1;
-		}
-		else if (vars->mode == COLOR_2)
-		{
-			if (vars->hsv == HUE && (vars->fract.color2.hue + COLOR_SHIFT) <= 360)
-				vars->fract.color2.hue += COLOR_SHIFT;
-			else if (vars->hsv == SAT && (vars->fract.color2.sat + 0.1) <= 1.0)
-				vars->fract.color2.sat += 0.1;
-			else if (vars->hsv == VAL && (vars->fract.color2.val + 0.1) <= 1.0)
-				vars->fract.color2.val += 0.1;
-		}
+		if (hsv == HUE && color->hue + HUE_SHIFT <= 360)
+			color->hue += HUE_SHIFT;
+		else if (hsv == SAT && color->sat + SAT_SHIFT <= 100)
+			color->sat += SAT_SHIFT;
+		else if (hsv == VAL && color->val + VAL_SHIFT <= 100)
+			color->val += VAL_SHIFT;
 	}
 	else
 	{
-		if (vars->mode == COLOR_1)
-		{
-			if (vars->hsv == HUE && (vars->fract.color1.hue - COLOR_SHIFT) >= 0)
-				vars->fract.color1.hue -= COLOR_SHIFT;
-			else if (vars->hsv == SAT && (vars->fract.color1.sat - 0.1) >= 0)
-				vars->fract.color1.sat -= 0.1;
-			else if (vars->hsv == VAL && (vars->fract.color1.val - 0.1) >= 0)
-				vars->fract.color1.val -= 0.1;
-		}
-		else if (vars->mode == COLOR_2)
-		{
-			if (vars->hsv == HUE && (vars->fract.color2.hue - COLOR_SHIFT) >= 0)
-				vars->fract.color2.hue -= COLOR_SHIFT;
-			else if (vars->hsv == SAT && (vars->fract.color2.sat - 0.1) >= 0)
-				vars->fract.color2.sat -= 0.1;
-			else if (vars->hsv == VAL && (vars->fract.color2.val - 0.1) >= 0)
-				vars->fract.color2.val -= 0.1;
-		}
+		if (hsv == HUE && color->hue - HUE_SHIFT >= 0)
+			color->hue -= HUE_SHIFT;
+		else if (hsv == SAT && color->sat - SAT_SHIFT >= 0)
+			color->sat -= SAT_SHIFT;
+		else if (hsv == VAL && color->val - VAL_SHIFT >= 0)
+			color->val -= VAL_SHIFT;
 	}
+}
+
+static inline void	print_color_params(int mode, t_fractals fract)
+{
+	if (mode == COLOR_1)
+		ft_printf("COLOR 1:\nH: %d ; S: %d ; V: %d\n", \
+		fract.color1.hue, fract.color1.sat, fract.color1.val);
+	else if (mode == COLOR_2)
+		ft_printf("COLOR 2:\nH: %d ; S: %d ; V: %d\n", \
+		fract.color2.hue, fract.color2.sat, fract.color2.val);
 }
 
 int	button_press(int button, int x, int y, t_vars *vars)
@@ -81,14 +82,18 @@ int	button_press(int button, int x, int y, t_vars *vars)
 	{
 		if (vars->mode == ZOOM)
 			zoom(button, &vars->loc, x, HEIGTH - y);
+		else if (vars->mode == COLOR_1)
+			switch_color(button, &vars->fract.color1, vars->hsv);
 		else
-			switch_color(button, vars);
+			switch_color(button, &vars->fract.color2, vars->hsv);
+		print_color_params(vars->mode, vars->fract);
 	}
 	else
 		return (-1);
 	mlx_destroy_image(vars->mlx, vars->data.img);
 	vars->data.img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
-	vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, &vars->data.len, &vars->data.endian);
+	vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, \
+	&vars->data.len, &vars->data.endian);
 	plot_fractal(*vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
 	return (0);

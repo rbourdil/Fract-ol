@@ -1,31 +1,42 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   img.h                                              :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2022/03/28 15:52:25 by rbourdil          #+#    #+#             */
+/*   Updated: 2022/03/28 18:01:21 by rbourdil         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef IMG_H
-#define IMG_H
+# define IMG_H
 
-#include <mlx.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <math.h>
+# include <mlx.h>
+# include <stdlib.h>
+# include <math.h>
+# include "../libftprintf/ft_printf.h"
 
-#define WIDTH 600
-#define HEIGTH 600
-#define KeyPressMask (1L<<0)
-#define KeyReleaseMask (1L<<1)
-#define ButtonPressMask (1L<<2)
-#define KeyPress 2
-#define ButtonPress 4
-#define DestroyNotify 17
-#define BOUND 1000
-#define SPEED 0.1
-#define COLOR_SHIFT 30
-#define ZOOM 0
-#define COLOR_1 1
-#define COLOR_2 2
-#define HUE 1
-#define SAT 2
-#define VAL 3
-#define	MANDELBROT 1
-#define	JULIA 2
-#define BURNING_SHIP 3
+# define WIDTH 600
+# define HEIGTH 600
+# define KEY_PRESS_MASK 1L
+# define KEY_RELEASE_MASK 2L
+# define BUTTON_PRESS_MASK 4L
+# define KEY_PRESS 2
+# define BUTTON_PRESS 4
+# define DESTROY_NOTIFY 17
+# define BOUND 1000
+# define SPEED 0.1
+# define ZOOM 0
+# define COLOR_1 1
+# define COLOR_2 2
+# define HUE 1
+# define SAT 2
+# define VAL 3
+# define MANDELBROT 1
+# define JULIA 2
+# define BURNING_SHIP 3
 
 struct	s_fractals;
 
@@ -39,6 +50,8 @@ typedef struct s_loc {
 	double	xe;
 	double	yb;
 	double	ye;
+	double	x_range;
+	double	y_range;
 }	t_loc;
 
 typedef struct s_data {
@@ -55,9 +68,9 @@ typedef struct s_args {
 }	t_args;
 
 typedef struct s_color {
-	double	hue;
-	double	sat;
-	double	val;
+	int	hue;
+	int	sat;
+	int	val;
 }	t_color;
 
 typedef struct s_fractals {
@@ -88,7 +101,7 @@ double	burning_ship(double za, double zb, t_args args);
 
 int		key_press(int keycode, t_vars *vars);
 int		button_press(int button, int x, int y, t_vars *vars);
-int		close(t_vars *vars);
+int		close_win(t_vars *vars);
 
 double	ft_atof(char *s);
 int		ft_strcmp(char *s1, char *s2);
@@ -96,12 +109,13 @@ int		ft_isspace(char c);
 int		ft_isnum(char c);
 int		ft_isfloat(char *s);
 
-void	my_pixel_put(t_data *data, int x, int y, int color);
+void	pixput(t_data *data, int x, int y, int color);
 int		to_color(int t, int r, int g, int b);
-int		interpolate_color(t_color color1, t_color color2, double d);
+int		smooth_color(t_color color1, t_color color2, double d);
 int		hsv_to_rgb(double hue, double sat, double val);
 
 void	print_help(void);
 void	check_args(int argc, char *argv[]);
+int		check_bounds(t_loc loc);
 
 #endif
