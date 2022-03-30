@@ -1,23 +1,19 @@
-NAME = fractol
+MAKE = make
 
-OBJS = main.o pixput.o colors.o mandelbrot.o key_press.o button_press.o ft_strcmp.o init_fractals.o hsv_to_rgb.o plot_fractal.o julia.o ft_atof.o burning_ship.o close_win.o errors.o ft_ctype.o
-
-HEAD = img.h
-
-CC = gcc
-
-FLAGS = -Wall -Wextra -Werror
-
-$(NAME): 	$(OBJS)
-			$(CC) $(OBJS) -Lmlx_linux -lmlx_Linux -L/usr/lib -Imlx_linux -lXext -lX11 -lm -lz -o $(NAME)
-
-$(OBJS): 	%.o:%.c $(HEAD)
-			$(CC) $(FLAGS) -I/usr/include -Imlx_linux -O3 -c $< -o $@
+all:
+	+$(MAKE) -C ft_printf
+	+$(MAKE) -C mlx_linux
+	+$(MAKE) -C srcs
 
 clean:
-			rm -rf $(OBJS)
+	+$(MAKE) clean -C ft_printf
+	+$(MAKE) clean -C mlx_linux
+	+$(MAKE) clean -C srcs
 
-fclean:		clean
-			rm -rf $(NAME)
+fclean:
+	+$(MAKE) fclean -C ft_printf
+	+$(MAKE) clean -C mlx_linux
+	+$(MAKE) fclean -C srcs
+	rm -rf fractol
 
-re:			fclean $(NAME)
+re:	fclean all

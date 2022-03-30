@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 15:52:25 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/28 18:01:21 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/03/30 14:36:55 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
-# include "../libftprintf/ft_printf.h"
+# include "../ft_printf/ft_printf.h"
 
 # define WIDTH 600
 # define HEIGTH 600
