@@ -35,5 +35,7 @@ int	main(int argc, char *argv[])
 	mlx_hook(vars.win, DESTROY_NOTIFY, KEY_RELEASE_MASK, close_win, &vars);
 	mlx_put_image_to_window(vars.mlx, vars.win, vars.data.img, 0, 0);
 	mlx_loop(vars.mlx);
+	mlx_destroy_display(vars.mlx);
+	free(vars.mlx);
 	return (0);
 }

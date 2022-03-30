@@ -40,11 +40,6 @@
 
 struct	s_fractals;
 
-typedef struct s_cplx {
-	double	a;
-	double	b;
-}	t_cplx;
-
 typedef struct s_loc {
 	double	xb;
 	double	xe;
