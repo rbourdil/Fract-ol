@@ -6,14 +6,12 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:51:26 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/28 17:42:06 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:00:25 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "img.h"
-
-#define DMIN 10E-7
-#define DMAX 10E35
+#include <stdio.h>
 
 void	print_help(void)
 {
@@ -44,7 +42,7 @@ void	check_args(int argc, char *argv[])
 	else if (!ft_strcmp(argv[1], "help"))
 	{
 		print_help();
-		exit(EXIT_FAILURE);
+		exit(EXIT_SUCCESS);
 	}
 	else if (!ft_strcmp(argv[1], "julia"))
 	{

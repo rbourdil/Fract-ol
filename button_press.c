@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:56:07 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/28 18:01:46 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:16:14 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,9 @@
 #define SAT_SHIFT 10
 #define VAL_SHIFT 10
 
+#define COLOR_1 1
+#define COLOR_2 2
+
 static void	zoom(int button, t_loc *loc, int x, int y)
 {
 	double	newrange;
@@ -28,7 +31,7 @@ static void	zoom(int button, t_loc *loc, int x, int y)
 
 	if (button == SCROLL_UP)
 		speed = 1 - SPEED;
-	else if (button == SCROLL_DOWN)
+	else
 		speed = 1 + SPEED;
 	newrange = loc->x_range * speed;
 	loc->xb = ((double)x / WIDTH) * (loc->x_range - newrange) + loc->xb;
@@ -91,9 +94,7 @@ int	button_press(int button, int x, int y, t_vars *vars)
 	else
 		return (-1);
 	mlx_destroy_image(vars->mlx, vars->data.img);
-	vars->data.img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
-	vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, \
-	&vars->data.len, &vars->data.endian);
+	new_image(vars);
 	plot_fractal(*vars);
 	mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
 	return (0);

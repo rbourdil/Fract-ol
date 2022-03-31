@@ -3,7 +3,7 @@ NAME := libftprintf.a
 OBJS := ft_printf.o ft_putchar.o ft_putstr.o ft_putptr.o \
 	ft_putnbr.o ft_u_putnbr.o ft_puthex.o redirect.o
 
-CC := gcc
+CC := cc
 
 FLAGS := -Wall -Wextra -Werror
 

@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:54:09 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/28 17:36:38 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/03/31 17:46:27 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,25 +25,30 @@
 
 static void	move(int key, t_loc *loc)
 {	
-	if (key == UP)
+	double	x_offset;
+	double	y_offset;
+
+	x_offset = SPEED * loc->x_range;
+	y_offset = SPEED * loc->y_range;
+	if (key == UP && loc->ye + y_offset < D_MAX)
 	{
-		loc->yb += SPEED * loc->y_range;
-		loc->ye += SPEED * loc->y_range;
+		loc->yb += y_offset;
+		loc->ye += y_offset;
 	}
-	else if (key == DOWN)
+	else if (key == DOWN && loc->yb - y_offset > (D_MAX * -1.0))
 	{
-		loc->yb -= SPEED * loc->y_range;
-		loc->ye -= SPEED * loc->y_range;
+		loc->yb -= y_offset;
+		loc->ye -= y_offset;
 	}
-	else if (key == LEFT)
+	else if (key == LEFT && loc->xb - x_offset > (D_MAX * -1.0))
 	{
-		loc->xb -= SPEED * loc->x_range;
-		loc->xe -= SPEED * loc->x_range;
+		loc->xb -= x_offset;
+		loc->xe -= x_offset;
 	}
-	else if (key == RIGHT)
+	else if (key == RIGHT && loc->xe + x_offset < D_MAX)
 	{
-		loc->xb += SPEED * loc->x_range;
-		loc->xe += SPEED * loc->x_range;
+		loc->xb += x_offset;
+		loc->xe += x_offset;
 	}
 	loc->x_range = loc->xe - loc->xb;
 	loc->y_range = loc->ye - loc->yb;
@@ -55,9 +60,7 @@ int	key_press(int key, t_vars *vars)
 	{
 		move(key, &vars->loc);
 		mlx_destroy_image(vars->mlx, vars->data.img);
-		vars->data.img = mlx_new_image(vars->mlx, WIDTH, HEIGTH);
-		vars->data.addr = mlx_get_data_addr(vars->data.img, &vars->data.bits, \
-		&vars->data.len, &vars->data.endian);
+		new_image(vars);
 		plot_fractal(*vars);
 		mlx_put_image_to_window(vars->mlx, vars->win, vars->data.img, 0, 0);
 	}
@@ -70,6 +73,6 @@ int	key_press(int key, t_vars *vars)
 	else if (key == V)
 		vars->hsv = VAL;
 	else if (key == ESCAPE)
-		close_win(vars);
+		close_mlx(vars);
 	return (0);
 }

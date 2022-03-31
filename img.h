@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 15:52:25 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/30 14:36:55 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/03/31 18:00:14 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <mlx.h>
 # include <stdlib.h>
 # include <math.h>
-# include "../ft_printf/ft_printf.h"
+# include "./ft_printf/ft_printf.h"
 
 # define WIDTH 600
 # define HEIGTH 600
@@ -29,14 +29,14 @@
 # define BOUND 1000
 # define SPEED 0.1
 # define ZOOM 0
-# define COLOR_1 1
-# define COLOR_2 2
 # define HUE 1
 # define SAT 2
 # define VAL 3
 # define MANDELBROT 1
 # define JULIA 2
 # define BURNING_SHIP 3
+# define D_MIN 2.225074e-300
+# define D_MAX 1.797693e+300
 
 struct	s_fractals;
 
@@ -96,7 +96,9 @@ double	burning_ship(double za, double zb, t_args args);
 
 int		key_press(int keycode, t_vars *vars);
 int		button_press(int button, int x, int y, t_vars *vars);
-int		close_win(t_vars *vars);
+int		close_mlx(t_vars *vars);
+void	start_mlx(t_vars *vars, char *title);
+void	new_image(t_vars *vars);
 
 double	ft_atof(char *s);
 int		ft_strcmp(char *s1, char *s2);
@@ -111,6 +113,7 @@ int		hsv_to_rgb(double hue, double sat, double val);
 
 void	print_help(void);
 void	check_args(int argc, char *argv[]);
-int		check_bounds(t_loc loc);
+int		check_bounds_zoom(t_loc loc);
+int		check_bounds_move(t_loc loc);
 
 #endif
