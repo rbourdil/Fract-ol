@@ -12,8 +12,6 @@
 
 #include "img.h"
 
-#define SCROLL_UP 4
-#define SCROLL_DOWN 5
 #define LEFT_CLICK 1
 #define RIGHT_CLICK 3
 
@@ -83,7 +81,7 @@ int	button_press(int button, int x, int y, t_vars *vars)
 		vars->mode = COLOR_2;
 	else if (button == SCROLL_UP || button == SCROLL_DOWN)
 	{
-		if (vars->mode == ZOOM)
+		if (vars->mode == ZOOM && check_zoom(button, vars->loc, x, y))
 			zoom(button, &vars->loc, x, HEIGTH - y);
 		else if (vars->mode == COLOR_1)
 			switch_color(button, &vars->fract.color1, vars->hsv);

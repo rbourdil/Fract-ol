@@ -53,3 +53,39 @@ void	check_args(int argc, char *argv[])
 		}
 	}
 }
+
+inline static int	check_bounds(double val)
+{
+	if (val < -1.0 * D_MAX || val > D_MAX || (val > -1.0 * D_MIN && val < D_MIN))
+		return (0);
+	return (1);
+}
+
+int	check_zoom(int button, t_loc loc, int x, int y)
+{
+	double	newrange;
+	double	xb;
+	double	xe;
+	double	yb;
+	double	ye;
+
+	if (button == SCROLL_UP)
+		newrange = loc.x_range * (1 - SPEED);
+	else
+		newrange = loc.x_range * (1 + SPEED);
+	if (!check_bounds(newrange))
+		return (0);
+	xb = ((double)x / WIDTH) * (loc.x_range - newrange) + loc.xb;
+	xe = newrange + loc.xb;
+	if (button == SCROLL_UP)
+		newrange = loc.y_range * (1 - SPEED);
+	else
+		newrange = loc.y_range * (1 + SPEED);
+	if (!check_bounds(newrange))
+		return (0);
+	yb = ((double)y / HEIGTH) * (loc.y_range - newrange) + loc.yb;
+	ye = newrange + loc.yb;
+	if (!check_bounds(xb) || !check_bounds(xe) || !check_bounds(yb) || !check_bounds(ye))
+		return (0);
+	return (1);
+}

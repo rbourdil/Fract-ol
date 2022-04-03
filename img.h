@@ -37,6 +37,8 @@
 # define BURNING_SHIP 3
 # define D_MIN 2.225074e-300
 # define D_MAX 1.797693e+300
+# define SCROLL_UP 4
+# define SCROLL_DOWN 5
 
 struct	s_fractals;
 
@@ -113,7 +115,6 @@ int		hsv_to_rgb(double hue, double sat, double val);
 
 void	print_help(void);
 void	check_args(int argc, char *argv[]);
-int		check_bounds_zoom(t_loc loc);
-int		check_bounds_move(t_loc loc);
+int		check_zoom(int button, t_loc loc, int x, int y);
 
 #endif
