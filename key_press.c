@@ -6,7 +6,7 @@
 /*   By: rbourdil <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/03/28 13:54:09 by rbourdil          #+#    #+#             */
-/*   Updated: 2022/03/31 17:46:27 by rbourdil         ###   ########.fr       */
+/*   Updated: 2022/04/04 10:06:20 by rbourdil         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,25 @@
 
 static void	move(int key, t_loc *loc)
 {	
-	double	x_offset;
-	double	y_offset;
-
-	x_offset = SPEED * loc->x_range;
-	y_offset = SPEED * loc->y_range;
-	if (key == UP && loc->ye + y_offset < D_MAX)
+	if (key == UP && loc->ye + (SPEED * loc->y_range) < D_MAX)
 	{
-		loc->yb += y_offset;
-		loc->ye += y_offset;
+		loc->yb += (SPEED * loc->y_range);
+		loc->ye += (SPEED * loc->y_range);
 	}
-	else if (key == DOWN && loc->yb - y_offset > (D_MAX * -1.0))
+	else if (key == DOWN && loc->yb - (SPEED * loc->y_range) > (D_MAX * -1.0))
 	{
-		loc->yb -= y_offset;
-		loc->ye -= y_offset;
+		loc->yb -= (SPEED * loc->y_range);
+		loc->ye -= (SPEED * loc->y_range);
 	}
-	else if (key == LEFT && loc->xb - x_offset > (D_MAX * -1.0))
+	else if (key == LEFT && loc->xb - (SPEED * loc->x_range) > (D_MAX * -1.0))
 	{
-		loc->xb -= x_offset;
-		loc->xe -= x_offset;
+		loc->xb -= (SPEED * loc->x_range);
+		loc->xe -= (SPEED * loc->x_range);
 	}
-	else if (key == RIGHT && loc->xe + x_offset < D_MAX)
+	else if (key == RIGHT && loc->xe + (SPEED * loc->x_range) < D_MAX)
 	{
-		loc->xb += x_offset;
-		loc->xe += x_offset;
+		loc->xb += (SPEED * loc->x_range);
+		loc->xe += (SPEED * loc->x_range);
 	}
 	loc->x_range = loc->xe - loc->xb;
 	loc->y_range = loc->ye - loc->yb;
